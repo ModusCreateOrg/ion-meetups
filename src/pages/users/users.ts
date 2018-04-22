@@ -19,7 +19,7 @@ import 'rxjs/add/operator/first';
 })
 export class UsersPage implements OnInit {
   users: Array<User>;
-  eventName: string;
+  event: { name; id; attendees };
 
   constructor(
     public viewCtrl: ViewController,
@@ -27,6 +27,7 @@ export class UsersPage implements OnInit {
     private userService: UserProvider
   ) {
     this.loadUsers();
+    this.event = this.navParams.get('event') || {};
   }
 
   ngOnInit() {}
@@ -38,6 +39,16 @@ export class UsersPage implements OnInit {
       .list()
       .first()
       .subscribe(users => {
+        /* If event already has attendees, mark them selected */
+        if (this.event.attendees && this.event.attendees.length) {
+          users = users.map(user => {
+            user.selected =
+              this.event.attendees.filter(u => u.email === user.email).length >
+              0;
+            return user;
+          });
+        }
+
         this.users = users;
       });
   }
@@ -50,11 +61,8 @@ export class UsersPage implements OnInit {
     this.viewCtrl.dismiss();
   }
 
-  createEvent() {
-    const event = {
-      name: this.eventName,
-      attendees: this.users.filter(u => u.selected)
-    };
-    this.viewCtrl.dismiss(event);
+  saveEvent() {
+    this.event.attendees = this.users.filter(u => u.selected);
+    this.viewCtrl.dismiss(this.event);
   }
 }

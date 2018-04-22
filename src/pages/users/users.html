@@ -14,7 +14,7 @@
       </button>
     </ion-buttons>
     <ion-buttons end>
-      <button ion-button color="primary" (click)="createEvent()">
+      <button ion-button color="primary" (click)="saveEvent()">
         Save
       </button>
     </ion-buttons>
@@ -27,7 +27,7 @@
   <ion-list>
 
     <ion-item>
-      <ion-input type="text" placeholder="Event Name" [(ngModel)]="eventName"></ion-input>
+      <ion-input type="text" placeholder="Event Name" [(ngModel)]="event.name"></ion-input>
     </ion-item>
 
   </ion-list>

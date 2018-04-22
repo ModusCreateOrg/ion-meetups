@@ -35,7 +35,21 @@ export class EventsPage {
     usersModal.onDidDismiss(event => {
       if (!event) return;
 
+      event.id = Date.now();
       this.events.push(event);
+    });
+    usersModal.present();
+  }
+
+  eventSelected(event) {
+    const usersModal = this.modalCtrl.create('users-page', {
+      event: Object.assign({}, event)
+    });
+    usersModal.onDidDismiss(event => {
+      if (!event) return;
+
+      const index = this.events.findIndex(ev => ev.id === event.id);
+      this.events.splice(index, 1, event);
     });
     usersModal.present();
   }
