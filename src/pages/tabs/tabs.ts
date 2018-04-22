@@ -4,9 +4,8 @@ import { Component } from '@angular/core';
   templateUrl: 'tabs.html'
 })
 export class TabsPage {
-  tab1Root: any = 'users-page';
-  tab2Root = 'UsersPage';
-  tab3Root = 'UsersPage';
+  tab1Root: any = 'events-page';
+  tab2Root: any = 'users-page';
 
   constructor() {}
 }

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, ViewController, NavParams } from 'ionic-angular';
 import { User, UserProvider } from '../../providers/user/user';
-import { Observable } from 'rxjs/Observable';
+
+import 'rxjs/add/operator/first';
 /**
  * Generated class for the UsersPage page.
  *
@@ -17,17 +18,43 @@ import { Observable } from 'rxjs/Observable';
   templateUrl: 'users.html'
 })
 export class UsersPage implements OnInit {
-  users: Observable<Array<User>>;
+  users: Array<User>;
+  eventName: string;
+
   constructor(
-    public navCtrl: NavController,
+    public viewCtrl: ViewController,
     public navParams: NavParams,
     private userService: UserProvider
-  ) {}
+  ) {
+    this.loadUsers();
+  }
 
   ngOnInit() {}
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad UsersPage');
-    this.users = this.userService.list();
+  ionViewDidLoad() {}
+
+  loadUsers() {
+    this.userService
+      .list()
+      .first()
+      .subscribe(users => {
+        this.users = users;
+      });
+  }
+
+  toggleSelected(user) {
+    user.selected = !user.selected;
+  }
+
+  cancel() {
+    this.viewCtrl.dismiss();
+  }
+
+  createEvent() {
+    const event = {
+      name: this.eventName,
+      attendees: this.users.filter(u => u.selected)
+    };
+    this.viewCtrl.dismiss(event);
   }
 }

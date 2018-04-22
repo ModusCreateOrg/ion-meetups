@@ -1,3 +1,11 @@
-page-users {
+@import '../../theme/variables';
 
+page-users {
+  ion-item.selected-user {
+    h2, p {
+      color: white;
+    }
+
+    background: color($colors, secondary);
+  }
 }

@@ -8,14 +8,33 @@
 
   <ion-navbar>
     <ion-title>Users</ion-title>
+    <ion-buttons start>
+      <button ion-button color="danger" (click)="cancel()">
+        Cancel
+      </button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button ion-button color="primary" (click)="createEvent()">
+        Save
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content padding>
-  <h1> Users </h1>
+  <h1> Event Name </h1>
   <ion-list>
-    <ion-item *ngFor="let user of users | async">
+
+    <ion-item>
+      <ion-input type="text" placeholder="Event Name" [(ngModel)]="eventName"></ion-input>
+    </ion-item>
+
+  </ion-list>
+
+  <h1> Select Attendees </h1>
+  <ion-list>
+    <ion-item *ngFor="let user of users" (click)="toggleSelected(user)" [ngClass]="{'selected-user': user.selected}">
       <ion-avatar item-start>
         <img src="{{user.picture.thumbnail}}">
       </ion-avatar>
