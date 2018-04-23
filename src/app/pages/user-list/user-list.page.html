@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Users</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item *ngFor="let user of $users | async">
+      <ion-avatar slot="start">
+        <img [src]="user.picture.thumbnail">
+      </ion-avatar>
+      <!-- `h2` and `p` can't be placed without this container below as the ion-item has display flex set with direction set to row -->
+      <div class="item-content">
+        <h2>{{user.name.first}} {{user.name.last}}</h2>
+        <p>{{user.email}}</p>
+      </div>
+      <ion-icon slot="end" name="arrow-forward"></ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-content>

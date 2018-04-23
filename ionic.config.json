@@ -1,0 +1,7 @@
+{
+  "name": "ion-meetups",
+  "type": "angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
