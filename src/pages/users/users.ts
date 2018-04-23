@@ -40,4 +40,8 @@ export class UsersPage implements OnInit {
         this.users = users;
       });
   }
+
+  userSelected(user: User) {
+    this.navCtrl.push('user-detail-page', { user });
+  }
 }
