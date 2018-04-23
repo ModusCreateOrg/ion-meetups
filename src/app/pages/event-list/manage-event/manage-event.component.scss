@@ -1,0 +1,20 @@
+.manage-event {
+    &__spinner {
+        text-align: center;
+    }
+    &__select-attendees {
+        padding: 0 16px;
+        &__list {
+            &__item {
+                ion-icon {
+                    display: none;
+                }
+                /deep/.item-primary {
+                    ion-icon {
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -3,12 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { UserItem } from '../models/user';
 import { Observable } from 'rxjs/internal/Observable';
+import { of } from 'rxjs/internal/observable/of';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   apiUrl = 'https://randomuser.me/api/?results=50&seed=modus';
+  users: Array<UserItem> = [];
   constructor(private http: HttpClient) { }
 
   /**
@@ -16,9 +18,17 @@ export class UserService {
    * @desc Returns the users from the randomuser api
    */
   getUsers(): Observable<Array<UserItem>> {
-    return this.http.get<{results: Array<UserItem>}>(this.apiUrl)
+    if (this.users.length) {
+      return of(this.users);
+    } else {
+      return this.http.get<{results: Array<UserItem>}>(this.apiUrl)
       .pipe(
-        map(response => response.results)
+        map(response => {
+          // caching the data for later usage
+          this.users = response.results;
+          return response.results;
+        })
       );
+    }
   }
 }

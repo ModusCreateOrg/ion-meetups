@@ -24,11 +24,17 @@ export class EventListPage implements OnInit {
   }
 
   goToEventDetail(event: EventItem) {
-    // this.router.navigate();
     console.log(event);
   }
 
+  /**
+   * @author Ahsan Ayaz
+   * @desc Triggers upon clicking on an event or on the plus sign at the top
+   * @param mode - sets the mode when the manage event modal is opened (Create/Edit)
+   * @param event - null if the mode is create, or the event which is to be edited/updated
+   */
   manageEvent(mode, event?: EventItem) {
+    this.eventService.$activeEventSource.next(event);
     this.modalCtrl.create({
       component: ManageEventComponent,
       componentProps: {
