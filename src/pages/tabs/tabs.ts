@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
+import { IonicPage } from 'ionic-angular';
 
+@IonicPage({
+  name: 'tabs-page'
+})
 @Component({
   templateUrl: 'tabs.html'
 })
