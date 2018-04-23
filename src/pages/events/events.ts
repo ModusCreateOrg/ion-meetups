@@ -31,7 +31,7 @@ export class EventsPage {
   ionViewDidLoad() {}
 
   createEvent() {
-    const usersModal = this.modalCtrl.create('users-page');
+    const usersModal = this.modalCtrl.create('edit-event-page');
     usersModal.onDidDismiss(event => {
       if (!event) return;
 
@@ -42,7 +42,7 @@ export class EventsPage {
   }
 
   eventSelected(event) {
-    const usersModal = this.modalCtrl.create('users-page', {
+    const usersModal = this.modalCtrl.create('edit-event-page', {
       event: Object.assign({}, event)
     });
     usersModal.onDidDismiss(event => {

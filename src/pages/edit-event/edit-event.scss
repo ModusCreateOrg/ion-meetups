@@ -1,0 +1,11 @@
+@import '../../theme/variables';
+
+page-edit-event {
+  ion-item.selected-user {
+    h2, p {
+      color: white;
+    }
+
+    background: color($colors, secondary);
+  }
+}
