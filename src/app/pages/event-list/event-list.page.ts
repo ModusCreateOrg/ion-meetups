@@ -33,12 +33,12 @@ export class EventListPage implements OnInit {
    * @param mode - sets the mode when the manage event modal is opened (Create/Edit)
    * @param event - null if the mode is create, or the event which is to be edited/updated
    */
-  manageEvent(mode, event?: EventItem) {
+  manageEvent(activeMode, event?: EventItem) {
     this.eventService.$activeEventSource.next(event);
     this.modalCtrl.create({
       component: ManageEventComponent,
       componentProps: {
-        mode,
+        activeMode,
         event
       }
     })

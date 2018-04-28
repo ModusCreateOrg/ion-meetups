@@ -17,34 +17,35 @@
 </ion-header>
 
 <ion-content class="manage-event">
-  <div class="manage-event__spinner" padding>
-    <ion-spinner *ngIf="isLoadingData"></ion-spinner>
-  </div>
-  <ng-container *ngIf="!isLoadingData">
-    <ion-list no-lines class="manage-event__main-inputs">
-      <ion-item>
-        <ion-label stacked color="primary">Name</ion-label>
-        <ion-input type="text" name="name" [(ngModel)]="eventFormData.name"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label stacked color="primary">Description</ion-label>
-        <ion-input type="text" name="description" [(ngModel)]="eventFormData.description"></ion-input>
+  <ion-list no-lines class="manage-event__main-inputs">
+    <ion-item>
+      <ion-label stacked color="primary">Name</ion-label>
+      <ion-input type="text" name="name" [(ngModel)]="eventFormData.name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked color="primary">Description</ion-label>
+      <ion-input type="text" name="description" [(ngModel)]="eventFormData.description"></ion-input>
+    </ion-item>
+  </ion-list>
+  <div class="manage-event__select-attendees">
+    <h4 class="manage-event__select-attendees__heading">Select Attendees</h4>
+    <ion-list class="manage-event__select-attendees__list" *ngIf="!isLoadingData; else spinnerTemplate;">
+      <ion-item class="manage-event__select-attendees__list__item" [color]="isUserSelected(user) ? 'primary' : ''" *ngFor="let user of users; trackBy: trackUserByEmail" (click)="toggleUserSelect(user)">
+        <ion-avatar slot="start">
+          <img [src]="user.picture.thumbnail">
+        </ion-avatar>
+        <div class="item-content">
+          <h2>{{user.name.first}} {{user.name.last}}</h2>
+          <p>{{user.email}}</p>
+        </div>
+        <ion-icon slot="end" name="checkmark"></ion-icon>
       </ion-item>
     </ion-list>
-    <div class="manage-event__select-attendees">
-      <h4 class="manage-event__select-attendees__heading">Select Attendees</h4>
-      <ion-list class="manage-event__select-attendees__list">
-        <ion-item class="manage-event__select-attendees__list__item" [color]="isUserSelected(user) ? 'primary' : ''" *ngFor="let user of users; trackBy: trackUserByEmail" (click)="toggleUserSelect(user)">
-          <ion-avatar slot="start">
-            <img [src]="user.picture.thumbnail">
-          </ion-avatar>
-          <div class="item-content">
-            <h2>{{user.name.first}} {{user.name.last}}</h2>
-            <p>{{user.email}}</p>
-          </div>
-          <ion-icon slot="end" name="checkmark"></ion-icon>
-        </ion-item>
-      </ion-list>
-    </div>
-  </ng-container>
+  </div>
 </ion-content>
+
+<ng-template #spinnerTemplate>
+  <div class="manage-event__spinner" padding>
+    <ion-spinner></ion-spinner>
+  </div>
+</ng-template>
