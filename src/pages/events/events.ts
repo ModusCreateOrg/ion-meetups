@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {
   ModalController,
   IonicPage,
+  AlertController,
   NavController,
   NavParams
 } from 'ionic-angular';
@@ -28,6 +29,7 @@ export class EventsPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private modalCtrl: ModalController,
+    private alertCtrl: AlertController,
     private eventsService: EventsProvider
   ) {
     this.events = this.eventsService.events;
@@ -63,5 +65,25 @@ export class EventsPage {
   deleteEvent(event) {
     this.eventsService.remove(event);
     this.events = this.eventsService.events;
+  }
+
+  confirmDelete(event) {
+    const confirm = this.alertCtrl.create({
+      title: 'Are you sure?',
+      message: `${event.name} will be permanently deleted.`,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.deleteEvent(event);
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 }

@@ -1,7 +1,7 @@
 @import "../../theme/variables";
 
 page-events {
-  .list-md {
+  .list-md, .list-ios {
     ion-item.item-block {
       position: relative;
       text-align: center;
@@ -21,7 +21,7 @@ page-events {
     }
   }
 
-  .label-md {
+  .label-md, .label-ios {
     margin-right: 0;
   }
 
