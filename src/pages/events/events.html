@@ -21,5 +21,9 @@
     <div class="event-subtitle">{{ev.attendees.length}} attendees</div>
   </ion-card>
 
-  <button ion-button block (click)="createEvent()">Create Event</button>
+  <ion-fab right bottom>
+    <button ion-fab color="primary" (click)="createEvent()">
+      <ion-icon name="create"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>
