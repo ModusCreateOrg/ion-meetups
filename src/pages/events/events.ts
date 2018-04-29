@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {
   ModalController,
   IonicPage,
-  AlertController,
+  ActionSheetController,
   NavController,
   NavParams
 } from 'ionic-angular';
@@ -29,13 +29,35 @@ export class EventsPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private modalCtrl: ModalController,
-    private alertCtrl: AlertController,
+    private actionSheetCtrl: ActionSheetController,
     private eventsService: EventsProvider
   ) {
     this.events = this.eventsService.events;
   }
 
   ionViewDidLoad() {}
+
+  presentEventActions(event) {
+    const actionSheet = this.actionSheetCtrl.create({
+      title: `${event.name}`,
+      buttons: [
+        {
+          text: 'Edit',
+          handler: () => this.editEvent(event)
+        },
+        {
+          text: 'Delete',
+          role: 'destructive',
+          handler: () => this.deleteEvent(event)
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    });
+    actionSheet.present();
+  }
 
   createEvent() {
     const usersModal = this.modalCtrl.create('edit-event-page');
@@ -49,7 +71,7 @@ export class EventsPage {
     usersModal.present();
   }
 
-  eventSelected(event) {
+  editEvent(event) {
     const usersModal = this.modalCtrl.create('edit-event-page', {
       event: Object.assign({}, event)
     });
@@ -65,25 +87,5 @@ export class EventsPage {
   deleteEvent(event) {
     this.eventsService.remove(event);
     this.events = this.eventsService.events;
-  }
-
-  confirmDelete(event) {
-    const confirm = this.alertCtrl.create({
-      title: 'Are you sure?',
-      message: `${event.name} will be permanently deleted.`,
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel'
-        },
-        {
-          text: 'Delete',
-          handler: () => {
-            this.deleteEvent(event);
-          }
-        }
-      ]
-    });
-    confirm.present();
   }
 }
