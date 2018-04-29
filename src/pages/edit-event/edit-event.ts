@@ -20,8 +20,8 @@ export class EditEventPage implements OnInit {
     public navParams: NavParams,
     private userService: UserProvider
   ) {
-    this.loadUsers();
     this.event = this.navParams.get('event') || {};
+    this.loadUsers();
   }
 
   ngOnInit() {}
