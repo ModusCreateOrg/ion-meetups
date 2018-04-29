@@ -1,9 +1,22 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>UserDetail</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button text="Users" defaultHref="/tabs/(users:user-list)"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{($user | async)?.name.first}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-
+  <ion-card *ngIf="$user | async">
+    <img [src]="($user | async)?.picture.medium"/>
+    <ion-card-content>
+      <ion-card-title>
+        {{($user | async)?.name.first}} {{($user | async)?.name.last}}
+      </ion-card-title>
+      <p>
+        {{($user | async)?.email}}
+      </p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

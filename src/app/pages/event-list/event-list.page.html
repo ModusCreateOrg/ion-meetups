@@ -1,20 +1,20 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>Events</ion-title>
-    <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="manageEvent(manageModes.Create, null)">
-        <ion-icon name="add"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding class="events">
   <ion-list class="events__list">
-    <ion-card *ngFor="let event of $events | async; let i = index" (click)="manageEvent(manageModes.Edit, event)">
-      <img src="https://picsum.photos/200/150/?random&t={{i}}"/>
+    <ion-card *ngFor="let event of $events | async; let i = index" (click)="showEventActions(event)">
+      <img src="https://picsum.photos/200/150/?random&t={{event.id}}"/>
       <div class="card-title">{{event.name}}</div>
       <div class="card-subtitle">Attendees: {{event.attendees.length}}</div>
     </ion-card>
   </ion-list>
+  <ion-fab vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="manageEvent(manageModes.Create, null)">
+      <ion-icon name="create"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

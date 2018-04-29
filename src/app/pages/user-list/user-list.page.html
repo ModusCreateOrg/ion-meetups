@@ -5,8 +5,8 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <ion-item *ngFor="let user of $users | async">
+  <ion-list *ngIf="$users | async as users; else spinnerTemplate;">
+    <ion-item *ngFor="let user of users" (click)="showUserDetail(user)">
       <ion-avatar slot="start">
         <img [src]="user.picture.thumbnail">
       </ion-avatar>
@@ -19,3 +19,9 @@
     </ion-item>
   </ion-list>
 </ion-content>
+
+<ng-template #spinnerTemplate>
+  <div class="users-list-spinner" padding>
+    <ion-spinner></ion-spinner>
+  </div>
+</ng-template>

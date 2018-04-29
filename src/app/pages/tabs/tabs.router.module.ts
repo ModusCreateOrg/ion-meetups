@@ -31,7 +31,7 @@ const routes: Routes = [
         loadChildren: '../user-list/user-list.module#UserListModule'
       },
       {
-        path: 'user-detail',
+        path: 'user-detail/:userEmail',
         outlet: 'users',
         loadChildren: '../user-detail/user-detail.module#UserDetailModule'
       }

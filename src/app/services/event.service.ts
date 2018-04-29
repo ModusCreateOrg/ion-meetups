@@ -48,14 +48,23 @@ export class EventService {
         first()
       )
       .subscribe(events => {
+        event.id = Date.now();
         const combinedEvents = [...events, event];
         this.saveEvents(combinedEvents);
         this.$eventsSource.next(combinedEvents);
       });
   }
 
-  deleteEvent() {
-
+  deleteEvent(eventToDelete: EventItem) {
+    this.$events
+      .pipe(
+        first()
+      )
+      .subscribe(events => {
+        const eventsArr = events.filter(event => (event.id !== eventToDelete.id));
+        this.saveEvents(eventsArr);
+        this.$eventsSource.next(eventsArr);
+      });
   }
 
   /**

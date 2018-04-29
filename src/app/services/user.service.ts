@@ -31,4 +31,14 @@ export class UserService {
       );
     }
   }
+
+  getUserByEmail(email: string): Observable<UserItem> {
+    return this.getUsers()
+      .pipe(
+        map((users => {
+          const matchedUsers = users.filter(user => (user.email === email));
+          return matchedUsers[0];
+        }))
+      )
+  }
 }
