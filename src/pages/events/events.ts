@@ -6,6 +6,8 @@ import {
   NavParams
 } from 'ionic-angular';
 
+import { EventsProvider } from '../../providers/events/events';
+
 /**
  * Generated class for the EventsPage page.
  *
@@ -25,8 +27,11 @@ export class EventsPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private modalCtrl: ModalController
-  ) {}
+    private modalCtrl: ModalController,
+    private eventsService: EventsProvider
+  ) {
+    this.events = this.eventsService.events;
+  }
 
   ionViewDidLoad() {}
 
@@ -36,7 +41,8 @@ export class EventsPage {
       if (!event) return;
 
       event.id = Date.now();
-      this.events.push(event);
+      this.eventsService.add(event);
+      this.events = this.eventsService.events;
     });
     usersModal.present();
   }
@@ -48,8 +54,8 @@ export class EventsPage {
     usersModal.onDidDismiss(event => {
       if (!event) return;
 
-      const index = this.events.findIndex(ev => ev.id === event.id);
-      this.events.splice(index, 1, event);
+      this.eventsService.update(event);
+      this.events = this.eventsService.events;
     });
     usersModal.present();
   }

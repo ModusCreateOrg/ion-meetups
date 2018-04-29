@@ -7,6 +7,7 @@ import { MyApp } from './app.component';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { UserProvider } from '../providers/user/user';
+import { EventsProvider } from '../providers/events/events';
 
 @NgModule({
   declarations: [MyApp],
@@ -17,7 +18,8 @@ import { UserProvider } from '../providers/user/user';
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    UserProvider
+    UserProvider,
+    EventsProvider
   ]
 })
 export class AppModule {}
