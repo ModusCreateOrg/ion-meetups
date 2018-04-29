@@ -18,6 +18,14 @@ page-events {
     margin-right: 0;
   }
 
+  .no-events-message {
+    color: gray;
+    position: relative;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
   .event-title {
     position: absolute;
     top: 36%;

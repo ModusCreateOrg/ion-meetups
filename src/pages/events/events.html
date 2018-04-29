@@ -14,7 +14,10 @@
 
 
 <ion-content padding>
-  <h1> Events </h1>
+  <h2 *ngIf="events.length === 0" class="no-events-message">
+    No events? Create some!
+  </h2>
+
   <ion-card *ngFor="let ev of events; let id = index" (click)="presentEventActions(ev)">
     <img src="https://picsum.photos/355/204/?image={{1084 - id}}"/>
     <div class="event-title">{{ev.name}}</div>
