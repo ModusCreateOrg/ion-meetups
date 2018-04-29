@@ -12,7 +12,6 @@ const EVENTS_KEY = 'ion-events';
 @Injectable()
 export class EventsProvider {
   constructor(public http: HttpClient) {
-    console.log('Hello EventsProvider Provider');
     this.loadEvents();
   }
 

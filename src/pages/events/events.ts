@@ -59,4 +59,9 @@ export class EventsPage {
     });
     usersModal.present();
   }
+
+  deleteEvent(event) {
+    this.eventsService.remove(event);
+    this.events = this.eventsService.events;
+  }
 }
