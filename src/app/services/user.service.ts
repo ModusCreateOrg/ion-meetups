@@ -39,6 +39,6 @@ export class UserService {
           const matchedUsers = users.filter(user => (user.email === email));
           return matchedUsers[0];
         }))
-      )
+      );
   }
 }

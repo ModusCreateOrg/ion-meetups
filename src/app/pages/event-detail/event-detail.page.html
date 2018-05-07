@@ -1,9 +1,41 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>EventDetail</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button text="Events" defaultHref="/tabs/(events:event-list)"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{($eventItem | async)?.name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-
+<ion-content class="event-detail">
+  <ion-card *ngIf="$eventItem | async as event" class="event-detail__event-card">
+    <ion-card-title>
+      <img [src]="event.image"/>
+      <div class="event-detail__event-card__title">{{event.name}}</div>
+    </ion-card-title>
+    <ion-card-content>
+      <ng-container  *ngIf="event.attendees.length; else noUsers">
+        <h2>Event Attendees</h2>
+        <div class="event-detail__attendees">
+          <ion-list class="event-detail__attendees__list">
+            <ion-item class="event-detail__attendees__list__item" *ngFor="let user of event.attendees;">
+              <ion-avatar slot="start">
+                <img [src]="user.picture.thumbnail">
+              </ion-avatar>
+              <div class="item-content">
+                <h2>{{user.name.first}} {{user.name.last}}</h2>
+                <p>{{user.email}}</p>
+              </div>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ng-container>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
+
+<ng-template #noUsers>
+  <div class="no-attendees" padding>
+    No Attendees
+  </div>
+</ng-template>

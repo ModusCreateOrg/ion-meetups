@@ -3,7 +3,8 @@ import { EventItem } from '../models/event';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs/internal/observable/of';
-import { first } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,9 @@ export class EventService {
   $events: Observable<Array<EventItem>>;
   $activeEventSource = new BehaviorSubject<EventItem>(null);
   $activeEvent: Observable<EventItem>;
-  constructor() {
+  constructor(
+    private sanitizer: DomSanitizer
+  ) {
     this.$events = this.$eventsSource.asObservable();
     this.$activeEvent = this.$activeEventSource.asObservable();
     this.loadEvents();
@@ -25,7 +28,7 @@ export class EventService {
    */
   loadEvents() {
     const events = JSON.parse(localStorage.getItem('ion-meetup-events') || '[]');
-    this.$eventsSource.next(events);
+    this.$eventsSource.next(events.map(this.processEvent.bind(this)));
   }
 
   /**
@@ -35,6 +38,19 @@ export class EventService {
    */
   getEvents(): Observable<Array<EventItem>> {
     return this.$events;
+  }
+
+  processEvent(event: EventItem): EventItem {
+    event.imageSafe = this.sanitizer.bypassSecurityTrustResourceUrl(event.image);
+    return event;
+  }
+
+  getEventById(eventId: number): Observable<EventItem> {
+    return this.getEvents()
+      .pipe(
+        first(),
+        map((events: Array<EventItem>) => events.find(event => (event.id === eventId)))
+      );
   }
 
   /**
@@ -49,9 +65,10 @@ export class EventService {
       )
       .subscribe(events => {
         event.id = Date.now();
+        event.image = `https://picsum.photos/200/150/?random&t=${event.id}`;
         const combinedEvents = [...events, event];
         this.saveEvents(combinedEvents);
-        this.$eventsSource.next(combinedEvents);
+        this.$eventsSource.next(combinedEvents.map(this.processEvent.bind(this)));
       });
   }
 
@@ -63,7 +80,7 @@ export class EventService {
       .subscribe(events => {
         const eventsArr = events.filter(event => (event.id !== eventToDelete.id));
         this.saveEvents(eventsArr);
-        this.$eventsSource.next(eventsArr);
+        this.$eventsSource.next(eventsArr.map(this.processEvent.bind(this)));
       });
   }
 
@@ -86,7 +103,7 @@ export class EventService {
           }
         });
         this.saveEvents(updatedEvents);
-        this.$eventsSource.next(updatedEvents);
+        this.$eventsSource.next(updatedEvents.map(this.processEvent.bind(this)));
       });
   }
 
@@ -95,7 +112,11 @@ export class EventService {
    * @desc Saves the events list to storage
    * @param events - events to be saved
    */
-  saveEvents(events = []) {
+  saveEvents(events: Array<EventItem> = []) {
+    events = events.map(event => {
+      delete event.imageSafe;
+      return event;
+    });
     localStorage.setItem('ion-meetup-events', JSON.stringify(events));
   }
 

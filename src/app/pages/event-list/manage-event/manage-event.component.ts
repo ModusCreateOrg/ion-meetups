@@ -119,6 +119,7 @@ export class ManageEventComponent implements OnInit {
    */
   saveEvent() {
     const event = {
+      ...this.event ? this.event : {},
       ...this.eventFormData,
       ...{
         attendees: this.selectedUsers

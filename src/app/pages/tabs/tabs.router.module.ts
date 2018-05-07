@@ -16,7 +16,7 @@ const routes: Routes = [
         loadChildren: '../event-list/event-list.module#EventListModule'
       },
       {
-        path: 'event-detail',
+        path: 'event-detail/:eventId',
         outlet: 'events',
         loadChildren: '../event-detail/event-detail.module#EventDetailModule'
       },

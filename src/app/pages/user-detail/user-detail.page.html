@@ -9,7 +9,7 @@
 
 <ion-content padding>
   <ion-card *ngIf="$user | async">
-    <img [src]="($user | async)?.picture.medium"/>
+    <img [src]="($user | async)?.picture.large"/>
     <ion-card-content>
       <ion-card-title>
         {{($user | async)?.name.first}} {{($user | async)?.name.last}}
