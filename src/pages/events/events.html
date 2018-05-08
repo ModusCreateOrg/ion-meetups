@@ -19,7 +19,7 @@
   </h2>
 
   <ion-card *ngFor="let ev of events; let id = index" (click)="presentEventActions(ev)">
-    <img src="https://picsum.photos/355/204/?image={{1084 - id}}"/>
+    <img src="{{ev.image}}"/>
     <div class="event-title">{{ev.name}}</div>
     <div class="event-subtitle">{{ev.attendees.length}} attendees</div>
   </ion-card>

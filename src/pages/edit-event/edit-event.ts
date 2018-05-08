@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, ViewController, NavParams } from 'ionic-angular';
 import { User, UserProvider } from '../../providers/user/user';
+import { getRandomInt } from '../../utils';
 
 import 'rxjs/add/operator/first';
 
@@ -13,7 +14,7 @@ import 'rxjs/add/operator/first';
 })
 export class EditEventPage implements OnInit {
   users: Array<User>;
-  event: { name; id; attendees };
+  event: { name; id; attendees; image };
 
   constructor(
     public viewCtrl: ViewController,
@@ -57,6 +58,9 @@ export class EditEventPage implements OnInit {
 
   saveEvent() {
     this.event.attendees = this.users.filter(u => u.selected);
+    this.event.image =
+      this.event.image ||
+      `https://picsum.photos/355/250/?image=${getRandomInt(0, 1085)}`;
     this.viewCtrl.dismiss(this.event);
   }
 }

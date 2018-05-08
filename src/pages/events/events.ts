@@ -42,6 +42,10 @@ export class EventsPage {
       title: `${event.name}`,
       buttons: [
         {
+          text: 'View',
+          handler: () => this.viewEvent(event)
+        },
+        {
           text: 'Edit',
           handler: () => this.editEvent(event)
         },
@@ -69,6 +73,10 @@ export class EventsPage {
       this.events = this.eventsService.events;
     });
     usersModal.present();
+  }
+
+  viewEvent(event) {
+    this.navCtrl.push('event-detail-page', { event });
   }
 
   editEvent(event) {

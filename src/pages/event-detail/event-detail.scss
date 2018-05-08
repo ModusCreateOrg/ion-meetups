@@ -1,0 +1,35 @@
+page-event-detail {
+
+  ion-card {
+    position: relative;
+
+    ion-card-title {
+      height: 250px;
+      background: rgba(0, 0, 0, 0.8);
+      text-shadow: 0 0 3px rgba(0,0,0,.8);
+
+      &.card-title-ios, &.card-title-md {
+        padding: 0;
+      }
+
+      img {
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 50%;
+      }
+
+      .event-title {
+        color: #fff;
+        position: relative;
+        top: -60%;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 20px;
+        width: fit-content;
+        margin: auto;
+        font-size: 2em;
+      }
+    }
+  }
+}
