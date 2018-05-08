@@ -7,6 +7,8 @@ import {
   NavParams
 } from 'ionic-angular';
 
+import { Event } from '../../models';
+
 import { EventsProvider } from '../../providers/events/events';
 
 /**
@@ -24,7 +26,7 @@ import { EventsProvider } from '../../providers/events/events';
   templateUrl: 'events.html'
 })
 export class EventsPage {
-  events = [];
+  events: Array<Event> = [];
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -37,7 +39,7 @@ export class EventsPage {
 
   ionViewDidLoad() {}
 
-  presentEventActions(event) {
+  presentEventActions(event: Event) {
     const actionSheet = this.actionSheetCtrl.create({
       title: `${event.name}`,
       buttons: [
@@ -65,7 +67,7 @@ export class EventsPage {
 
   createEvent() {
     const usersModal = this.modalCtrl.create('edit-event-page');
-    usersModal.onDidDismiss(event => {
+    usersModal.onDidDismiss((event: Event) => {
       if (!event) return;
 
       event.id = Date.now();
@@ -79,11 +81,11 @@ export class EventsPage {
     this.navCtrl.push('event-detail-page', { event });
   }
 
-  editEvent(event) {
+  editEvent(event: Event) {
     const usersModal = this.modalCtrl.create('edit-event-page', {
       event: Object.assign({}, event)
     });
-    usersModal.onDidDismiss(event => {
+    usersModal.onDidDismiss((event: Event) => {
       if (!event) return;
 
       this.eventsService.update(event);
@@ -92,7 +94,7 @@ export class EventsPage {
     usersModal.present();
   }
 
-  deleteEvent(event) {
+  deleteEvent(event: Event) {
     this.eventsService.remove(event);
     this.events = this.eventsService.events;
   }

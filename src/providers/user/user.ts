@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { User } from '../../models';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
@@ -11,13 +12,6 @@ import 'rxjs/add/observable/of';
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
-
-export interface User {
-  name: { title: string; first: string; last: string };
-  gender: string;
-  email: string;
-  selected?: boolean;
-}
 
 const RANDOM_USERS_SEED = 'modus';
 const RANDOM_USRS_LIMIT = 50;

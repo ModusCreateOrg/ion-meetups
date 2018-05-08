@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { User, UserProvider } from '../../providers/user/user';
+import { UserProvider } from '../../providers/user/user';
+import { User } from '../../models';
 
 import 'rxjs/add/operator/first';
 /**

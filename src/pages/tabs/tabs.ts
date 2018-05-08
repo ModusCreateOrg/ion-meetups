@@ -10,6 +10,7 @@ import { IonicPage } from 'ionic-angular';
 export class TabsPage {
   tab1Root: any = 'events-page';
   tab2Root: any = 'users-page';
+  tab3Root: any = 'about-page';
 
   constructor() {}
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, ViewController, NavParams } from 'ionic-angular';
-import { User, UserProvider } from '../../providers/user/user';
+import { UserProvider } from '../../providers/user/user';
+import { User, Event } from '../../models';
 import { getRandomInt } from '../../utils';
 
 import 'rxjs/add/operator/first';
@@ -14,7 +15,7 @@ import 'rxjs/add/operator/first';
 })
 export class EditEventPage implements OnInit {
   users: Array<User>;
-  event: { name; id; attendees; image };
+  event: Event;
 
   constructor(
     public viewCtrl: ViewController,

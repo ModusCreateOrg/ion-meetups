@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Event } from '../../models';
 
 /**
  * Generated class for the EventDetailPage page.
@@ -16,7 +17,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'event-detail.html'
 })
 export class EventDetailPage {
-  event: any;
+  event: Event;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.event = this.navParams.get('event');
   }

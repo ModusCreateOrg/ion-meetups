@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Event } from '../../models';
 
 /*
   Generated class for the EventsProvider provider.
@@ -15,12 +16,13 @@ export class EventsProvider {
     this.loadEvents();
   }
 
-  _events = [];
-  get events() {
+  _events: Array<Event> = [];
+
+  get events(): Array<Event> {
     return this._events;
   }
 
-  set events(evts) {
+  set events(evts: Array<Event>) {
     this._events = evts;
   }
 
@@ -37,12 +39,12 @@ export class EventsProvider {
     localStorage.setItem(EVENTS_KEY, JSON.stringify(this.events));
   }
 
-  add(event) {
+  add(event: Event) {
     this._events.push(event);
     this.saveEvents();
   }
 
-  update(event) {
+  update(event: Event) {
     const index = this.events.findIndex(ev => ev.id === event.id);
     if (index < 0) return false;
 
@@ -50,7 +52,7 @@ export class EventsProvider {
     this.saveEvents();
   }
 
-  remove({ id }) {
+  remove({ id }: Event) {
     const index = this.events.findIndex(ev => ev.id === id);
     if (index < 0) return false;
 
