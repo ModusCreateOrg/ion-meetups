@@ -4,19 +4,14 @@ import {
   IonicPage,
   ActionSheetController,
   NavController,
-  NavParams
+  NavParams,
+  Platform
 } from 'ionic-angular';
 
-import { Event } from '../../models';
-
 import { EventsProvider } from '../../providers/events/events';
-
-/**
- * Generated class for the EventsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Observable } from 'rxjs/Observable';
+import { EventItem } from '../../models/event';
+import { EventManageModes } from '../../constants/event-manage-modes';
 
 @IonicPage({
   name: 'events-page'
@@ -26,76 +21,88 @@ import { EventsProvider } from '../../providers/events/events';
   templateUrl: 'events.html'
 })
 export class EventsPage {
-  events: Array<Event> = [];
+  $events: Observable<Array<EventItem>>;
+  manageModes = EventManageModes;
+  isAndroidDevice: boolean;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private eventService: EventsProvider,
     private modalCtrl: ModalController,
     private actionSheetCtrl: ActionSheetController,
-    private eventsService: EventsProvider
-  ) {
-    this.events = this.eventsService.events;
+    private platform: Platform
+  ) { }
+
+  ionViewDidLoad() {
+    this.$events = this.eventService.getEvents();
+    this.isAndroidDevice = this.platform.is('android');
   }
 
-  ionViewDidLoad() {}
+  goToEventDetail(event: EventItem) {
+    console.log(event);
+  }
 
-  presentEventActions(event: Event) {
+  /**
+   * @author Ahsan Ayaz, Akash Agrawal
+   * @desc Triggers upon clicking on an event or on the plus sign at the top
+   * @param mode - sets the mode when the manage event modal is opened (Create/Edit)
+   * @param event - null if the mode is create, or the event which is to be edited/updated
+   */
+  manageEvent(activeMode, event?: EventItem) {
+    const manageEventModal = this.modalCtrl.create('manage-event-page', {event});
+
+    manageEventModal.present();
+    manageEventModal.onDidDismiss((event: EventItem) => {
+      if (event) {
+        this.eventService.addEvent(event);
+      };
+    });
+  }
+
+  /**
+   * @author Ahsan Ayaz, Akash Agrawal
+   * @desc Shows action sheet for the event.
+   * View Event, Edit Event, Delete Event
+   */
+  showEventActions(event: EventItem) {
     const actionSheet = this.actionSheetCtrl.create({
-      title: `${event.name}`,
+      title: 'Manage your event',
       buttons: [
         {
           text: 'View',
-          handler: () => this.viewEvent(event)
+          icon: this.isAndroidDevice ? 'eye' : '',
+          handler: () => {
+            this.navCtrl.push('event-detail-page', {
+              eventId: event.id
+            })
+          }
         },
         {
           text: 'Edit',
-          handler: () => this.editEvent(event)
+          icon: this.isAndroidDevice ? 'create' : '',
+          handler: () => {
+            this.manageEvent(this.manageModes.Edit, event);
+          }
         },
         {
           text: 'Delete',
+          icon: this.isAndroidDevice ? 'trash' : '',
           role: 'destructive',
-          handler: () => this.deleteEvent(event)
+          handler: () => {
+            this.eventService.deleteEvent(event);
+          }
         },
         {
           text: 'Cancel',
-          role: 'cancel'
+          role: 'cancel',
+          icon: this.isAndroidDevice ? 'close' : '',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
         }
       ]
     });
+
     actionSheet.present();
-  }
-
-  createEvent() {
-    const usersModal = this.modalCtrl.create('edit-event-page');
-    usersModal.onDidDismiss((event: Event) => {
-      if (!event) return;
-
-      event.id = Date.now();
-      this.eventsService.add(event);
-      this.events = this.eventsService.events;
-    });
-    usersModal.present();
-  }
-
-  viewEvent(event) {
-    this.navCtrl.push('event-detail-page', { event });
-  }
-
-  editEvent(event: Event) {
-    const usersModal = this.modalCtrl.create('edit-event-page', {
-      event: Object.assign({}, event)
-    });
-    usersModal.onDidDismiss((event: Event) => {
-      if (!event) return;
-
-      this.eventsService.update(event);
-      this.events = this.eventsService.events;
-    });
-    usersModal.present();
-  }
-
-  deleteEvent(event: Event) {
-    this.eventsService.remove(event);
-    this.events = this.eventsService.events;
   }
 }

@@ -1,40 +1,42 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
-import { User } from '../../models';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { UserItem } from '../../models/user';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/observable/of';
-
-/*
-  Generated class for the UserProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
-
-const RANDOM_USERS_SEED = 'modus';
-const RANDOM_USRS_LIMIT = 50;
+import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class UserProvider {
-  _usersCache: Array<User>;
+  apiUrl = 'https://randomuser.me/api/?results=50&seed=modus';
+  users: Array<UserItem> = [];
+  constructor(private http: HttpClient) { }
 
-  constructor(public http: HttpClient) {}
+  /**
+   * @author Ahsan Ayaz, Akash Agrawal
+   * @desc Returns the users from the randomuser api
+   */
+  getUsers(): Observable<Array<UserItem>> {
+    if (this.users.length) {
+      return of(this.users);
+    } else {
+      return this.http.get<{results: Array<UserItem>}>(this.apiUrl)
+      .pipe(
+        map(response => {
+          // caching the data for later usage
+          this.users = response.results;
+          return response.results;
+        })
+      );
+    }
+  }
 
-  list(options = { limit: RANDOM_USRS_LIMIT }): Observable<Array<User>> {
-    if (this._usersCache) return Observable.of(this._usersCache);
-
-    return this.http
-      .get(
-        `https://randomuser.me/api/?results=${
-          options.limit
-        }&seed=${RANDOM_USERS_SEED}`
-      )
-      .map((resp: { info: any; results: Array<User> }) => resp.results)
-      .map((users: Array<User>) => {
-        this._usersCache = users;
-        return users;
-      });
+  getUserByEmail(email: string): Observable<UserItem> {
+    return this.getUsers()
+      .pipe(
+        map((users => {
+          const matchedUsers = users.filter(user => (user.email === email));
+          return matchedUsers[0];
+        }))
+      );
   }
 }

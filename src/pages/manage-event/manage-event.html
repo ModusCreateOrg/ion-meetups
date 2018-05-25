@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        Cancel
+      </button>
+    </ion-buttons>
+    <ion-title>
+      {{activeMode === manageModes.Create ? 'Create' : 'Edit'}} Event
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="saveEvent()">
+        Save
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="manage-event" padding>
+  <h4 class="manage-event__heading">Event Name</h4>
+  <ion-list no-lines class="manage-event__main-inputs">
+    <ion-item>
+      <ion-input type="text" placeholder="Enter event name" name="name" [(ngModel)]="eventFormData.name"></ion-input>
+    </ion-item>
+  </ion-list>
+  <div class="manage-event__select-attendees">
+    <h4 class="manage-event__select-attendees__heading">Select Attendees</h4>
+    <ion-list class="manage-event__select-attendees__list" *ngIf="!isLoadingData; else spinnerTemplate;">
+      <ion-item class="manage-event__select-attendees__list__item" [color]="isUserSelected(user) ? 'secondary' : ''" *ngFor="let user of users; trackBy: trackUserByEmail" (click)="toggleUserSelect(user)">
+        <ion-avatar item-start>
+          <img src="{{user.picture.thumbnail}}">
+        </ion-avatar>
+        <h2>{{user.name.first}} {{user.name.last}}</h2>
+        <p>{{user.email}}</p>
+        <ion-icon name="checkmark" item-end></ion-icon>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
+
+<ng-template #spinnerTemplate>
+  <div class="manage-event__spinner" padding>
+    <ion-spinner></ion-spinner>
+  </div>
+</ng-template>

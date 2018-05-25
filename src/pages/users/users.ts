@@ -1,15 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/user';
-import { User } from '../../models';
-
-import 'rxjs/add/operator/first';
-/**
- * Generated class for the UsersPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Observable } from 'rxjs/Observable';
+import { UserItem } from '../../models/user';
 
 @IonicPage({
   name: 'users-page'
@@ -19,30 +12,18 @@ import 'rxjs/add/operator/first';
   templateUrl: 'users.html'
 })
 export class UsersPage implements OnInit {
-  users: Array<User>;
-
+  $users: Observable<Array<UserItem>>;
   constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    private userService: UserProvider
-  ) {
-    this.loadUsers();
+    private userService: UserProvider,
+    private navCtrl: NavController
+  ) { }
+
+  ngOnInit() {
+    // get the users from the backend server
+    this.$users = this.userService.getUsers();
   }
 
-  ngOnInit() {}
-
-  ionViewDidLoad() {}
-
-  loadUsers() {
-    this.userService
-      .list()
-      .first()
-      .subscribe(users => {
-        this.users = users;
-      });
-  }
-
-  userSelected(user: User) {
-    this.navCtrl.push('user-detail-page', { user });
+  showUserDetail(user: UserItem) {
+    this.navCtrl.push('user-detail-page', {userEmail: user.email});
   }
 }
