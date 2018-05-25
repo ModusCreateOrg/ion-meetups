@@ -1,14 +1,14 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-buttons start>
+    <ion-title>
+      {{activeMode === manageModes.Create ? 'Create' : 'Edit'}} Event
+    </ion-title>
+    <ion-buttons left>
       <button ion-button (click)="dismiss()">
         Cancel
       </button>
     </ion-buttons>
-    <ion-title>
-      {{activeMode === manageModes.Create ? 'Create' : 'Edit'}} Event
-    </ion-title>
-    <ion-buttons end>
+    <ion-buttons right>
       <button ion-button (click)="saveEvent()">
         Save
       </button>
