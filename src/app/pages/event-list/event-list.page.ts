@@ -4,7 +4,7 @@ import { EventItem } from '../../models/event';
 import { Observable } from 'rxjs/internal/Observable';
 import { ModalController, ActionSheetController, Platform } from '@ionic/angular';
 import { ManageEventComponent } from './manage-event/manage-event.component';
-import { EventManageModes } from './event-manage-modes';
+import { EventManageModes } from '../../constants/event-manage-modes';
 import { Router } from '@angular/router';
 
 @Component({
@@ -34,7 +34,7 @@ export class EventListPage implements OnInit {
   }
 
   /**
-   * @author Ahsan Ayaz
+   * @author Ahsan Ayaz, Akash Agrawal
    * @desc Triggers upon clicking on an event or on the plus sign at the top
    * @param mode - sets the mode when the manage event modal is opened (Create/Edit)
    * @param event - null if the mode is create, or the event which is to be edited/updated
@@ -53,6 +53,11 @@ export class EventListPage implements OnInit {
     console.log(data);
   }
 
+  /**
+   * @author Ahsan Ayaz, Akash Agrawal
+   * @desc Shows action sheet for the event.
+   * View Event, Edit Event, Delete Event
+   */
   async showEventActions(event: EventItem) {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Manage your event',

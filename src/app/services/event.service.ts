@@ -23,7 +23,7 @@ export class EventService {
   }
 
   /**
-   * @author Ahsan Ayaz
+   * @author Ahsan Ayaz, Akash Agrawal
    * @desc Loads the events initially from the storage
    */
   loadEvents() {
@@ -32,7 +32,7 @@ export class EventService {
   }
 
   /**
-   * @author Ahsan Ayaz
+   * @author Ahsan Ayaz, Akash Agrawal
    * @desc Returns the stream of events
    * @returns {Observable} - stream of events
    */
@@ -54,7 +54,7 @@ export class EventService {
   }
 
   /**
-   * @author Ahsan Ayaz
+   * @author Ahsan Ayaz, Akash Agrawal
    * @desc Adds the event to the events list.
    * @param event - event to be added / created
    */
@@ -85,7 +85,7 @@ export class EventService {
   }
 
   /**
-   * @author Ahsan Ayaz
+   * @author Ahsan Ayaz, Akash Agrawal
    * @desc Updates the event based on email comparison.
    * @param event - event to update
    */
@@ -108,7 +108,7 @@ export class EventService {
   }
 
   /**
-   * @author Ahsan Ayaz
+   * @author Ahsan Ayaz, Akash Agrawal
    * @desc Saves the events list to storage
    * @param events - events to be saved
    */

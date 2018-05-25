@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { EventManageModes } from '../event-manage-modes';
+import { EventManageModes } from '../../../constants/event-manage-modes';
 import { EventService } from '../../../services/event.service';
 import { EventItem } from '../../../models/event';
 import { first, mergeMap, catchError } from 'rxjs/operators';
@@ -58,7 +58,7 @@ export class ManageEventComponent implements OnInit {
   }
 
   /**
-   * @author Ahsan Ayaz
+   * @author Ahsan Ayaz, Akash Agrawal
    * @desc Sets the event form data (name & description)
    * Also sets the event attendees based on the provided event data
    */
@@ -76,7 +76,7 @@ export class ManageEventComponent implements OnInit {
   }
 
   /**
-   * @author Ahsan Ayaz
+   * @author Ahsan Ayaz, Akash Agrawal
    * @desc A function to track the users by their emails as the trackByFn
    * @param user - the current user in the *ngFor loop
    */
@@ -85,7 +85,7 @@ export class ManageEventComponent implements OnInit {
   }
 
   /**
-   * @author Ahsan Ayaz
+   * @author Ahsan Ayaz, Akash Agrawal
    * @desc Returns whether the provided user is currently selected as an attendee or not
    * @param user - user to check whether attendee or not
    * @returns {boolean} - if the user is an attendee of the event
@@ -97,7 +97,7 @@ export class ManageEventComponent implements OnInit {
   }
 
   /**
-   * @author Ahsan Ayaz
+   * @author Ahsan Ayaz, Akash Agrawal
    * @desc Triggers when the user item is tapped on the `Select attendees` section
    * @param user - the user item that is clicked
    */
@@ -113,7 +113,7 @@ export class ManageEventComponent implements OnInit {
   }
 
   /**
-   * @author Ahsan Ayaz
+   * @author Ahsan Ayaz, Akash Agrawal
    * @desc Triggers on the save button click from the header
    * Based on the active mode, either creates an event or updates the event being edited
    */
@@ -134,7 +134,7 @@ export class ManageEventComponent implements OnInit {
   }
 
   /**
-   * @author Ahsan Ayaz
+   * @author Ahsan Ayaz, Akash Agrawal
    * @desc Dismisses the modal.
    */
   dismiss() {

@@ -14,7 +14,7 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   /**
-   * @author Ahsan Ayaz
+   * @author Ahsan Ayaz, Akash Agrawal
    * @desc Returns the users from the randomuser api
    */
   getUsers(): Observable<Array<UserItem>> {
