@@ -1,0 +1,23 @@
+@import '../../theme/variables';
+page-manage-event {
+  .manage-event {
+    &__spinner {
+      text-align: center;
+    }
+    &__select-attendees {
+      &__list {
+        &__item {
+          ion-icon {
+            display: none;
+          }
+          /deep/.item-primary {
+            ion-icon {
+              display: block;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

@@ -1,13 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { User } from '../../models';
-
-/**
- * Generated class for the UserDetailPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { IonicPage, NavParams } from 'ionic-angular';
+import { Observable } from 'rxjs/Observable';
+import { UserItem } from '../../models/user';
+import { UserProvider } from '../../providers/user/user';
 
 @IonicPage({
   name: 'user-detail-page'
@@ -17,19 +12,14 @@ import { User } from '../../models';
   templateUrl: 'user-detail.html'
 })
 export class UserDetailPage {
-  user: User;
+  $user: Observable<UserItem>;
+  constructor(
+    private navParams: NavParams,
+    private userService: UserProvider
+  ) { }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.user = this.navParams.get('user');
-
-    if (!this.user) {
-      throw new Error('No value present for parameter "user"');
-    }
-  }
-
-  get name() {
-    if (!this.user) return '';
-
-    return `${this.user.name.first} ${this.user.name.last}`;
+  ionViewWillEnter() {
+    const userEmail = this.navParams.get('userEmail');
+    this.$user = this.userService.getUserByEmail(userEmail);
   }
 }

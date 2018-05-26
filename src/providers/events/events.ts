@@ -1,6 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Event } from '../../models';
+import { EventItem } from '../../models/event';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import { first, map } from 'rxjs/operators';
+import { DomSanitizer } from '@angular/platform-browser';
 
 /*
   Generated class for the EventsProvider provider.
@@ -8,55 +11,89 @@ import { Event } from '../../models';
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
-const EVENTS_KEY = 'ion-events';
 
 @Injectable()
 export class EventsProvider {
-  constructor(public http: HttpClient) {
+  $eventsSource = new BehaviorSubject<Array<EventItem>>([]);
+  $events: Observable<Array<EventItem>>;
+  constructor(
+    private sanitizer: DomSanitizer
+  ) {
+    this.$events = this.$eventsSource.asObservable();
     this.loadEvents();
   }
 
-  _events: Array<Event> = [];
-
-  get events(): Array<Event> {
-    return this._events;
-  }
-
-  set events(evts: Array<Event>) {
-    this._events = evts;
-  }
-
   loadEvents() {
-    try {
-      const eventData = JSON.parse(localStorage.getItem(EVENTS_KEY));
-      this.events = eventData || [];
-    } catch (err) {
-      this.events = [];
-    }
+    const events = JSON.parse(localStorage.getItem('ion-meetup-events') || '[]');
+    this.$eventsSource.next(events.map(this.processEvent.bind(this)));
   }
 
-  saveEvents() {
-    localStorage.setItem(EVENTS_KEY, JSON.stringify(this.events));
+  getEvents(): Observable<Array<EventItem>> {
+    return this.$events;
   }
 
-  add(event: Event) {
-    this._events.push(event);
-    this.saveEvents();
+  processEvent(event: EventItem): EventItem {
+    event.imageSafe = this.sanitizer.bypassSecurityTrustResourceUrl(event.image);
+    return event;
   }
 
-  update(event: Event) {
-    const index = this.events.findIndex(ev => ev.id === event.id);
-    if (index < 0) return false;
-
-    this._events.splice(index, 1, event);
-    this.saveEvents();
+  getEventById(eventId: number): Observable<EventItem> {
+    return this.getEvents()
+      .pipe(
+        first(),
+        map((events: Array<EventItem>) => events.find(event => (event.id === eventId)))
+      );
   }
 
-  remove({ id }: Event) {
-    const index = this.events.findIndex(ev => ev.id === id);
-    if (index < 0) return false;
+  addEvent(event: EventItem) {
+    this.$events
+      .pipe(
+        first()
+      )
+      .subscribe(events => {
+        event.id = Date.now();
+        event.image = `https://picsum.photos/200/150/?random&t=${event.id}`;
+        const combinedEvents = [...events, event];
+        this.saveEvents(combinedEvents);
+        this.$eventsSource.next(combinedEvents.map(this.processEvent.bind(this)));
+      });
+  }
 
-    this._events.splice(index, 1);
-    this.saveEvents();
+  deleteEvent(eventToDelete: EventItem) {
+    this.$events
+      .pipe(
+        first()
+      )
+      .subscribe(events => {
+        const eventsArr = events.filter(event => (event.id !== eventToDelete.id));
+        this.saveEvents(eventsArr);
+        this.$eventsSource.next(eventsArr.map(this.processEvent.bind(this)));
+      });
+  }
+
+  updateEvent(event: EventItem) {
+    this.$events
+      .pipe(
+        first()
+      )
+      .subscribe(events => {
+        const updatedEvents = events.map(cachedEvent => {
+          if (cachedEvent.name === event.name) {
+            return event;
+          } else {
+            return cachedEvent;
+          }
+        });
+        this.saveEvents(updatedEvents);
+        this.$eventsSource.next(updatedEvents.map(this.processEvent.bind(this)));
+      });
+  }
+
+  saveEvents(events: Array<EventItem> = []) {
+    events = events.map(event => {
+      delete event.imageSafe;
+      return event;
+    });
+    localStorage.setItem('ion-meetup-events', JSON.stringify(events));
   }
 }
