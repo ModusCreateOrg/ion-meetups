@@ -10,7 +10,7 @@ export class RoutesFallbackService {
 
   /**
    * @author Ahsan Ayaz, Akash Agrawal
-   * @desc Checkes the fallback routes and matches if the current url is an old
+   * @desc Checks the fallback routes and matches if the current url is an old
    * url and so the new url should b triggered with correct parameters.
    * @returns an object containing the new route and the route params map
    */

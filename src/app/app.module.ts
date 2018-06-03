@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { RoutesFallbackService } from './services/routes-fallback.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,9 +17,7 @@ import { RoutesFallbackService } from './services/routes-fallback.service';
     ]),
     HttpClientModule
   ],
-  providers: [
-    RoutesFallbackService
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
