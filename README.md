@@ -7,7 +7,7 @@
 
 Ion Meetups is based on Ionic. It serves as an example for migration from Ionic 3.x to Ionic 4.
 
-Check it out in action [here](https://ion-meetups.modus.app/tabs/(about:about)).
+Check it out in action [here](https://ion-meetups.modus.app/).
 
 ## Installing / Getting started
 
