@@ -1,4 +1,4 @@
-[![Logo of the project](./images/modus.logo.svg)](https://moduscreate.com)
+[![Logo of the project](./images/blog-header.png)](https://moduscreate.com)
 
 # Ion Meetups
 
