@@ -1,4 +1,4 @@
-[![Logo of the project](./images/modus.logo.svg)](https://moduscreate.com)
+[![Logo of the project](./images/blog-header.png)](https://moduscreate.com)
 
 # Ion Meetups
 
@@ -6,6 +6,8 @@
 [![MIT Licensed](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/ModusCreateOrg/ion-meetups/blob/master/LICENSE)
 
 Ion Meetups is based on Ionic. It serves as an example for migration from Ionic 3.x to Ionic 4.
+
+Check it out in action [here](https://ion-meetups.modus.app/).
 
 ## Installing / Getting started
 
